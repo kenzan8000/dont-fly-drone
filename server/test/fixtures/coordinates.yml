@@ -1,11 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  polygon_id: 1
+  polygon_id: MyString
   lat: 1.5
   lng: 1.5
 
 two:
-  polygon_id: 1
+  polygon_id: MyString
   lat: 1.5
   lng: 1.5

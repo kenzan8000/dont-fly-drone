@@ -14,14 +14,13 @@
 ActiveRecord::Schema.define(version: 20160225040945) do
 
   create_table "areas", force: :cascade do |t|
-    t.integer  "type"
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "coordinates", force: :cascade do |t|
-    t.integer  "polygon_id"
+    t.string   "polygon_id"
     t.float    "lat"
     t.float    "lng"
     t.datetime "created_at", null: false
@@ -29,7 +28,7 @@ ActiveRecord::Schema.define(version: 20160225040945) do
   end
 
   create_table "polygons", force: :cascade do |t|
-    t.integer  "area_id"
+    t.string   "area_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

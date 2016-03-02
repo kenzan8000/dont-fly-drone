@@ -1,7 +1,12 @@
 require 'test_helper'
 
-class PolygonTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+
+describe Polygon do
+
+  describe '#attributes' do
+    it "#attributes are required" do
+      Polygon.new.valid?.must_equal false
+    end
+  end
+
 end

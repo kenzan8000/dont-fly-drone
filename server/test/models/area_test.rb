@@ -1,7 +1,12 @@
 require 'test_helper'
 
-class AreaTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+
+describe Area do
+
+  describe '#attributes' do
+    it "#attributes are required" do
+      Area.new.valid?.must_equal false
+    end
+  end
+
 end
