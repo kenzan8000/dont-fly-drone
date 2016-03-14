@@ -9,7 +9,7 @@ class AreaImporter
 
 
   # import geojson to model
-  def import_geojson(json, area_id)
+  def import_geojson(json, area_type)
     features = json['features']
     features.each do |feature|
       # import coordinates
@@ -17,7 +17,7 @@ class AreaImporter
       next unless coordinates_array
 
       # import polygons
-      polygons = import_polygons(coordinates_array, area_id)
+      polygons = import_polygons(coordinates_array, area_type)
       next if polygons.length == 0
     end
   end
@@ -73,13 +73,13 @@ class AreaImporter
   end
 
   # import polygons
-  def import_polygons(coordinates_array, area_id)
+  def import_polygons(coordinates_array, area_type)
     polygons = []
     coordinates_array.each do |coordinates|
       # create polygon
       polygon = Polygon.new
       polygons.push(polygon)
-      polygon.area_id = area_id
+      polygon.area_type = area_type
 
       min_lat = 180.0
       min_lng = 90.0

@@ -1,14 +1,14 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  area_id: 1
+  area_type: MyString
   min_lat: 1.5
   min_lng: 1.5
   max_lat: 2.5
   max_lng: 2.5
 
 two:
-  area_id: 2
+  area_type: MyString
   min_lat: 1.5
   min_lng: 1.5
   max_lat: 2.5

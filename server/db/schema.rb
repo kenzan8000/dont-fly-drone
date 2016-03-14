@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 20160225040322) do
   end
 
   create_table "polygons", force: :cascade do |t|
-    t.integer  "area_id"
+    t.string   "area_type"
     t.float    "min_lat"
     t.float    "min_lng"
     t.float    "max_lat"
