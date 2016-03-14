@@ -8,17 +8,8 @@ class AreaImporter
   COORDINATES_ARRAY_DEPTH_MULTIPLE_POLYGONS = 4
 
 
-  # import area
-  def import_area(area_name)
-    area = Area.find_or_create_by(name: area_name)
-    area.save if area.valid?
-  end
-
   # import geojson to model
-  def import_geojson(json, area_name)
-    area = Area.find_by_name(area_name)
-    return unless area
-
+  def import_geojson(json, area_id)
     features = json['features']
     features.each do |feature|
       # import coordinates
@@ -26,7 +17,7 @@ class AreaImporter
       next unless coordinates_array
 
       # import polygons
-      polygons = import_polygons(coordinates_array, area)
+      polygons = import_polygons(coordinates_array, area_id)
       next if polygons.length == 0
     end
   end
@@ -82,14 +73,29 @@ class AreaImporter
   end
 
   # import polygons
-  def import_polygons(coordinates_array, area)
+  def import_polygons(coordinates_array, area_id)
     polygons = []
     coordinates_array.each do |coordinates|
       # create polygon
       polygon = Polygon.new
       polygons.push(polygon)
-      area.polygons << polygon
-      polygon.area_id = area.id
+      polygon.area_id = area_id
+
+      min_lat = 180.0
+      min_lng = 90.0
+      max_lng = -180.0
+      max_lng = -90.0
+      coordinates.each do |coordinate|
+        min_lat = coordinate.lat if coordinate.lat < min_lat
+        min_lng = coordinate.lng if coordinate.lng < min_lng
+        max_lat = coordinate.lat if coordinate.lat > max_lat
+        max_lng = coordinate.lng if coordinate.lng > max_lng
+      end
+      polygon.min_lat = min_lat
+      polygon.min_lng = min_lng
+      polygon.max_lat = max_lat
+      polygon.max_lng = max_lng
+
       next unless polygon.valid?
       polygon.save
 

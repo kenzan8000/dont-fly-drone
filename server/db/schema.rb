@@ -11,13 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160225040945) do
-
-  create_table "areas", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
+ActiveRecord::Schema.define(version: 20160225040322) do
 
   create_table "coordinates", force: :cascade do |t|
     t.string   "polygon_id"
@@ -28,7 +22,11 @@ ActiveRecord::Schema.define(version: 20160225040945) do
   end
 
   create_table "polygons", force: :cascade do |t|
-    t.string   "area_id"
+    t.integer  "area_id"
+    t.float    "min_lat"
+    t.float    "min_lng"
+    t.float    "max_lat"
+    t.float    "max_lng"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
