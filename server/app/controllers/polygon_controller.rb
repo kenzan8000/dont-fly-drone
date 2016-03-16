@@ -29,10 +29,11 @@ class PolygonController < ApplicationController
       "polygons": [
         {
           "id": 1,
-          "name": "hoge",
-          "seller_id": 1,
-          "lat": 37.75,
-          "lng": -122.45
+          "area_type": "hoge",
+          "min_lat": 37.75,
+          "min_lng": -122.45,
+          "max_lat": 38.75,
+          "max_lng": -121.45
         },
         ...
       ],
@@ -40,7 +41,7 @@ class PolygonController < ApplicationController
     }
 =end
   def index
-    # params
+    # params: the range to search polygons
     ranges = [:south, :north, :west, :east]
     ranges.each do |range|
       unless params[range]
@@ -49,7 +50,7 @@ class PolygonController < ApplicationController
       end
     end
 
-    # response
+    # response: search the polygons overlapping the range
     polygons = Polygon.where(
       "max_lat > ? and min_lat < ? and max_lng > ? and min_lng < ?",
       params[:south].to_f, params[:north].to_f,
