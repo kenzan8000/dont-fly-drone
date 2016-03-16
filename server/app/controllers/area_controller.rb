@@ -1,11 +1,11 @@
-class PolygonController < ApplicationController
+class AreaController < ApplicationController
 
 =begin
   @apiVersion 0.1.0
 
-  @apiGroup Polygon
-  @api {get} /polygon
-  @apiName Polygon#index
+  @apiGroup Area
+  @api {get} /area/polygons
+  @apiName Area#index
   @apiDescription get Polygons in the range
 
   @apiParam {Number} south                     south
@@ -40,12 +40,12 @@ class PolygonController < ApplicationController
       "application_code": 200
     }
 =end
-  def index
+  def polygons
     # params: the range to search polygons
     ranges = [:south, :north, :west, :east]
     ranges.each do |range|
       unless params[range]
-        render json: { :application_code => 400, :description => "could not find the #{range}" }
+        render json: { :application_code => 400, :description => "could not find parameter '#{range}'" }
         return
       end
     end
