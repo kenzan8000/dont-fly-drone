@@ -1,0 +1,3 @@
+[submodule "third-party/drone-feedback"]
+	path = third-party/drone-feedback
+	url = https://github.com/mapbox/drone-feedback.git
