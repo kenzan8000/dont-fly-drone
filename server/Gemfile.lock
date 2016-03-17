@@ -92,6 +92,10 @@ GEM
       multipart-post (>= 1.2, < 3)
     font-awesome-rails (4.5.0.1)
       railties (>= 3.2, < 5.1)
+    geokit (1.10.0)
+    geokit-rails (2.1.0)
+      geokit (~> 1.5)
+      rails (>= 3.0)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
     haml (4.0.7)
@@ -301,6 +305,7 @@ DEPENDENCIES
   devise
   factory_girl_rails
   faraday
+  geokit-rails
   heroku
   jbuilder (~> 2.0)
   jquery-rails

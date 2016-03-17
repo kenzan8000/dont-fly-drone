@@ -63,8 +63,8 @@ class AreaImporter
         next unless coordinates_pair.length == 2
 
         coordinate = Coordinate.new
-        coordinate.lat = coordinates_pair[0]
-        coordinate.lng = coordinates_pair[1]
+        coordinate.lng = coordinates_pair[0]
+        coordinate.lat = coordinates_pair[1]
         coordinates.push(coordinate)
       end
     end
@@ -82,9 +82,9 @@ class AreaImporter
       polygon.area_type = area_type
 
       min_lat = 180.0
-      min_lng = 90.0
+      min_lng = 180.0
+      max_lat = -180.0
       max_lng = -180.0
-      max_lng = -90.0
       coordinates.each do |coordinate|
         min_lat = coordinate.lat if coordinate.lat < min_lat
         min_lng = coordinate.lng if coordinate.lng < min_lng

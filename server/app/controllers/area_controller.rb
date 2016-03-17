@@ -6,7 +6,7 @@ class AreaController < ApplicationController
   @apiGroup Area
   @api {get} /area/polygons
   @apiName Area#polygons
-  @apiDescription get Polygons in the range
+  @apiDescription get areas that aren't allowed to fly drone
 
   @apiParam {Number} south                     south
   @apiParam {Number} north                     north
@@ -49,12 +49,19 @@ class AreaController < ApplicationController
         return
       end
     end
+    south = params[:south].to_f
+    north = params[:north].to_f
+    west = params[:west].to_f
+    east = params[:east].to_f
 
-    # response: search the polygons overlapping the range
+    # response: search the polygons overlapping the rectangle range
     polygons = Polygon.where(
-      "max_lat > ? and min_lat < ? and max_lng > ? and min_lng < ?",
-      params[:south].to_f, params[:north].to_f,
-      params[:west].to_f, params[:east].to_f
+      "(? > min_lat and ? < max_lat and ? > min_lng and ? < max_lng)"     +    # polygons contain range
+      " or (min_lat > ? and min_lat < ? and min_lng > ? and max_lng < ?)" +    # range contains polygons
+      " or (max_lat > ? and min_lat < ? and max_lng > ? and min_lng < ?)",     # intersection
+      south, south, west, west,
+      south, north, west, east,
+      south, north, west, east
     )
     json = Jbuilder.encode do |j|
       j.polygons(polygons)
@@ -98,9 +105,28 @@ class AreaController < ApplicationController
         return
       end
     end
+    lat = params[:lat].to_f
+    lng = params[:lng].to_f
 
     # response: detect if there are any polygons containing the coordinates
-    can_fly = false
+      # get polygons
+    polygons = Polygon.where(
+      "? > min_lat and ? < max_lat and ? > min_lng and ? < max_lng",
+      lat, lat, lng, lng
+    )
+      # detection
+    can_fly = true
+    polygons.each do |polygon|
+      locations = []
+      polygon.coordinates.each do |coordinate|
+        locations.push(Geokit::LatLng.new(coordinate.lat, coordinate.lng))
+      end
+      if Geokit::Polygon.new(locations).contains?(Geokit::LatLng.new(lat, lng))
+        can_fly = false
+        break
+      end
+    end
+      # response
     json = Jbuilder.encode do |j|
       j.can_fly(can_fly)
       j.application_code(200)

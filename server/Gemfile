@@ -13,6 +13,7 @@ gem 'faraday'                                                   # http client
 gem 'devise'                                                    # authentication
 gem 'cancan'                                                    # authentication
 gem 'rails_admin'                                               # admin
+gem 'geokit-rails'                                              # geo location apis
 
 # front-end
 gem 'sass-rails', '~> 5.0'
