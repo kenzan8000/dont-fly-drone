@@ -63,8 +63,20 @@ class AreaController < ApplicationController
       south, north, west, east,
       south, north, west, east
     )
+    max_polygon_count = 20
+    if polygons.count > max_polygon_count
+      render json: { :application_code => 400, :description => "too many number of polygons(#{polygons.count}) because rectangle is too vast" }
+      return
+    end
     json = Jbuilder.encode do |j|
-      j.polygons(polygons)
+      #j.polygons(polygons)
+
+      j.polygons(polygons) do |polygon|
+        j.id(polygon.id)
+        j.area_type(polygon.area_type)
+        j.name(polygon.name)
+        j.coordinates(polygon.coordinates)
+      end
       j.application_code(200)
     end
     render json: json
@@ -78,8 +90,8 @@ class AreaController < ApplicationController
   @apiName Area#can_fly
   @apiDescription get if the coordinate is allowed to fly drone
 
-  @apiParam {Boolean} lat                     coordinate latitude
-  @apiParam {Number}  lng                     coordinate longitude
+  @apiParam {Number} lat                     coordinate latitude
+  @apiParam {Number} lng                     coordinate longitude
 
   @apiParamExample {json} Request-Example:
     {
@@ -87,12 +99,12 @@ class AreaController < ApplicationController
       "lng": -122.4
     }
 
-  @apiSuccess {Number} can_fly Bool
+  @apiSuccess {Boolean} can_fly Bool
   @apiSuccess {Number} application_code if the request succeeded or failed
 
   @apiSuccessExample {json} Success-Response:
     {
-      "can_fly": 1,
+      "can_fly": true,
       "application_code": 200
     }
 =end

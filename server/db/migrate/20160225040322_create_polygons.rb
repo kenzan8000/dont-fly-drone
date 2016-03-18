@@ -2,6 +2,7 @@ class CreatePolygons < ActiveRecord::Migration
   def change
     create_table :polygons do |t|
       t.string :area_type
+      t.string :name
       t.float :min_lat
       t.float :min_lng
       t.float :max_lat

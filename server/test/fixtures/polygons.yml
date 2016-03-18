@@ -2,6 +2,7 @@
 
 one:
   area_type: MyString
+  name: MyString
   min_lat: 1.5
   min_lng: 1.5
   max_lat: 2.5
@@ -9,6 +10,7 @@ one:
 
 two:
   area_type: MyString
+  name: MyString
   min_lat: 1.5
   min_lng: 1.5
   max_lat: 2.5
